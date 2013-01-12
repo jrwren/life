@@ -386,27 +386,27 @@ map <leader>p :cp<cr>
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
 """"""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-map <leader>o :BufExplorer<cr>
+"let g:bufExplorerDefaultHelp=0
+"let g:bufExplorerShowRelativePath=1
+"map <leader>o :BufExplorer<cr>
 
 
 """"""""""""""""""""""""""""""
 " => Minibuffer plugin
 """"""""""""""""""""""""""""""
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplorerMoreThanOne = 2
-let g:miniBufExplModSelTarget = 0
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplVSplit = 25
-let g:miniBufExplSplitBelow=1
+"let g:miniBufExplModSelTarget = 1
+"let g:miniBufExplorerMoreThanOne = 2
+"let g:miniBufExplModSelTarget = 0
+"let g:miniBufExplUseSingleClick = 1
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplVSplit = 25
+"let g:miniBufExplSplitBelow=1
+"
+"let g:bufExplorerSortBy = "name"
 
-let g:bufExplorerSortBy = "name"
+"autocmd BufRead,BufNew :call UMiniBufExplorer
 
-autocmd BufRead,BufNew :call UMiniBufExplorer
-
-map <leader>u :TMiniBufExplorer<cr>
+"map <leader>u :TMiniBufExplorer<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -475,17 +475,17 @@ endfunction
 """"""""""""""""""""""""""""""
 " => MRU plugin
 """"""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
+"let MRU_Max_Entries = 400
+"map <leader>f :MRU<CR>
 
 
 """"""""""""""""""""""""""""""
 " => Command-T
 """"""""""""""""""""""""""""""
-let g:CommandTMaxHeight = 15
-set wildignore+=*.o,*.obj,.git,*.pyc
-noremap <leader>j :CommandT<cr>
-noremap <leader>y :CommandTFlush<cr>
+"let g:CommandTMaxHeight = 15
+"set wildignore+=*.o,*.obj,.git,*.pyc
+"noremap <leader>j :CommandT<cr>
+"noremap <leader>y :CommandTFlush<cr>
 
 
 """"""""""""""""""""""""""""""
