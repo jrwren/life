@@ -1,0 +1,9 @@
+--type-add
+php=.inc
+--type-add
+cc=.i
+--type-add
+py=.pyx
+# Use less as pager
+--pager=less -FRX
+--smart-case
