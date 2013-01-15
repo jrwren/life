@@ -18,6 +18,7 @@ call pathogen#infect()
 "set guifont=9x15bold
 "set guifont=7x14bold
 "set guifont=7x13bold
+"set guifont=Monaco:h10
 set guifont=Envy\ Code\ R:h12
 "set guifont=Lucida\ Console:h12
 "
