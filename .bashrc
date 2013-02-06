@@ -143,7 +143,9 @@ PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 export LESS=FRSX
 
+if [[ -x /usr/libexec/java_home ]];then
 export JAVA_HOME="$(/usr/libexec/java_home)"
+fi
 if [[ -r "$HOME"/.ec2/pk-*.pem ]];then
 export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
 fi
@@ -156,7 +158,9 @@ fi
 if [[ -r /usr/local/Cellar/ec2-ami-tools/1.3-45758/jars ]]; then
 export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.3-45758/jars"
 fi
+if hash rbenv 2>/dev/null; then
 eval "$(rbenv init -)"
+fi
 [ -f ~/.bundler-exec.sh ] && source ~/.bundler-exec.sh
 PATH=$PATH:/usr/local/share/npm/bin
 
