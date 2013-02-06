@@ -240,8 +240,8 @@ map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move btw. windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
+"map <C-j> <C-W>j
+"map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
@@ -258,10 +258,10 @@ map <C-K> :bn<cr>
 map <C-J> :bp<cr>
 
 " Tab configuration
-map <leader>tn :tabnew<cr>
-map <leader>te :tabedit
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
+"map <leader>tn :tabnew<cr>
+"map <leader>te :tabedit
+"map <leader>tc :tabclose<cr>
+"map <leader>tm :tabmove
 
 " When pressing <leader>cd switch to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>
@@ -618,24 +618,24 @@ highlight ExtraWhitespace2 ctermbg=red ctermfg=white guibg=red | match ExtraWhit
 
 " source: http://vim.wikia.com/wiki/VimTip102
 " Let <Tab> do all the autocompletion
-"function! Smart_TabComplete()
-"	let line = getline('.') 					" curline
-"	let substr = strpart(line, -1, col('.'))	" from start to cursor
-"	let substr = matchstr(substr, "[^ \t]*$")	" word till cursor
-"	if (strlen(substr)==0)						" nothing to match on empty string
-"		return "\<tab>"
-"	endif
-"	let has_period = match(substr, '\.') != -1	" position of period, if any
-"	let has_slash = match(substr, '\/') != -1	" position of slash, if any
-"	if (!has_period && !has_slash)
-"		return "\<C-X>\<C-P>"					" existing text matching
-"	elseif ( has_slash )
-"		return "\<C-X>\<C-F>"					" file matching
-"	else
-"		return "\<C-X>\<C-O>"					" plugin matching
-"	endif
-"endfunction
-"inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+function! Smart_TabComplete()
+	let line = getline('.') 					" curline
+	let substr = strpart(line, -1, col('.'))	" from start to cursor
+	let substr = matchstr(substr, "[^ \t]*$")	" word till cursor
+	if (strlen(substr)==0)						" nothing to match on empty string
+		return "\<tab>"
+	endif
+	let has_period = match(substr, '\.') != -1	" position of period, if any
+	let has_slash = match(substr, '\/') != -1	" position of slash, if any
+	if (!has_period && !has_slash)
+		return "\<C-X>\<C-P>"					" existing text matching
+	elseif ( has_slash )
+		return "\<C-X>\<C-F>"					" file matching
+	else
+		return "\<C-X>\<C-O>"					" plugin matching
+	endif
+endfunction
+inoremap <tab> <c-r>=Smart_TabComplete()<CR>
 
 let g:pyflakes_use_quickfix = 0
 autocmd BufNewFile,BufRead *.py compiler nose

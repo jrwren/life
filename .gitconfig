@@ -1,0 +1,9 @@
+[user]
+	name = Jay R. Wren
+	email = jrwren@xmtp.net
+[color]
+	ui = auto
+[alias]
+	st = status
+[merge]
+	tool = kdiff3
