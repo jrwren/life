@@ -34,6 +34,9 @@ fi
 if [[ ! -z $DISPLAY ]];then
     alias vi='vim -X'
     alias vim='vim -X'
+    xmodmap -e 'remove Lock = Caps_Lock' 2>/dev/null
+    xmodmap -e 'keysym Caps_Lock = Control_L' 2>/dev/null
+    xmodmap -e 'add Control = Control_L' 2>/dev/null
 fi
 [[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim
 
