@@ -20,7 +20,7 @@ if [[ "$TERM" != "dumb" ]]; then
     else
         alias ls='ls -G'
     fi
-    alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- *.torrent'
+    alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- `ls -rtQ *.torrent`'
     alias tmuxa='tmux attach-session -t 0'
     alias phpman='man -M ~/pear/docs/pman'
 	#alias less='less -r'
@@ -34,13 +34,13 @@ fi
 if [[ ! -z $DISPLAY ]];then
     alias vi='vim -X'
     alias vim='vim -X'
-    xmodmap -e 'remove Lock = Caps_Lock' 2>/dev/null
-    xmodmap -e 'keysym Caps_Lock = Control_L' 2>/dev/null
-    xmodmap -e 'add Control = Control_L' 2>/dev/null
 fi
 [[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim
 
 if [[ -z "$HOSTNAME" ]]; then HOSTNAME=`hostname`;fi
+if [[ "$HOSTNAME" == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
+
+type -p cowsay >/dev/null && trap 'cowsay "Have a nice day!"; sleep 1' EXIT
 
 # some more ls aliases
 #alias ll='ls -l'
@@ -59,16 +59,17 @@ fi
 #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w \$ '
 #PS1='${debian_chroot:+($debian_chroot)}\e[1;31m[${PWD}:${WINDOW}${TMUX_PAIN}]\e[1;32m[\A]\e[m\e[1;36m\n[\u@\h:\$]\e[m '
 if [[ "$ITERM_PROFILE" == "Default Light" ]]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;31m\]jrw@go\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 else
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;32m\]jrw@go\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 fi
 
+: ${TMPDIR:=/tmp}
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
-        PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find /tmp/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+        PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
     else
         PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007"'
     fi
@@ -122,23 +123,28 @@ GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWUPSTREAM="verbose svn"
 if [[ -r ~/.git-completion.bash ]]; then
     source ~/.git-completion.bash
-    PS1=$PS1'$(__git_ps1 " (%s)") '
-elif [[ -r /usr/local/git/contrib/completion/git-completion.bash ]]; then
-    source /usr/local/git/contrib/completion/git-completion.bash
-    PS1=$PS1'$(__git_ps1 " (%s)") '
-elif [[ -r /etc/bash_completion.d/git ]]; then
-    source /etc/bash_completion.d/git
-    PS1=$PS1'$(__git_ps1 " (%s)") '
 fi
+if [[ -r /usr/local/git/contrib/completion/git-completion.bash ]]; then
+    source /usr/local/git/contrib/completion/git-completion.bash
+fi
+[[ -r /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
+[[ -r /usr/local/etc/bash_completion.d/git-completion.bash ]] && source /usr/local/etc/bash_completion.d/git-completion.bash
+[[ -r /usr/local/etc/bash_completion.d/git-prompt.sh ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
+if [[ -r /etc/bash_completion.d/git ]]; then
+    source /etc/bash_completion.d/git
+fi
+PS1=$PS1'$(__git_ps1 " (%s)") '
 
-PS1=$PS1'$ '
+PS1=$PS1'👻  $ '
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 
 #[[ -s "$HOME/venv/bin/activate" ]] && source "$HOME/venv/bin/activate" # This uses a default python virtualenv
 alias venv='source $HOME/venv/bin/activate'
 
-hash brew 2>/dev/null && [[ -s `brew --prefix`/Library/Contributions/brew_bash_completion.sh ]] && source `brew --prefix`/Library/Contributions/brew_bash_completion.sh
+type -p brew >/dev/null && hash brew 2>/dev/null && [[ -s `brew --prefix`/Library/Contributions/brew_bash_completion.sh ]] && source `brew --prefix`/Library/Contributions/brew_bash_completion.sh
+
+type -p brew >/dev/null && [[ -f `brew --prefix`/etc/bash_completion ]] && . `brew --prefix`/etc/bash_completion
 
 complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh
 
@@ -147,7 +153,7 @@ PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 export LESS=FRSX
 
 if [[ -x /usr/libexec/java_home ]];then
-export JAVA_HOME="$(/usr/libexec/java_home)"
+export JAVA_HOME="$(/usr/libexec/java_home 2>/dev/null)"
 fi
 if [[ -r "$HOME"/.ec2/pk-*.pem ]];then
 export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
@@ -177,3 +183,35 @@ if [[ -x /usr/local/heroku/bin ]]; then export PATH="/usr/local/heroku/bin:$PATH
 if [[ "jwren13.local" == $HOSTNAME || "$HOSTNAME" =~ .*arbor.net$ ]]; then
     source .bashrc-arbor
 fi
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+export PYENV_ROOT=/usr/local/opt/pyenv
+export LSCOLORS=ExfxcxdxCxegedabagacad
+macdnsflush() {
+    dscacheutil -flushcache
+    sudo killall -HUP mDNSResponder
+    rndc flush
+}
+TV=delays:/d/tv
+MOVIES=delays:/d/movies
+MUSIC=delays:Music/mp3
+[[ -r .bashrc-$hostname ]] && source .bashrc-$hostname
+
+GOROOT=/usr/local/Cellar/go/1.3/libexec
+HOMES=$(readlink /home)
+export GOPATH=$HOMES/jrwren/go
+[[ -d $GOROOT ]] && export GOROOT || unset GOROOT
+PATH=$GOPATH/bin:$PATH
+
+goctags () {
+    godeps ./... | awk -v GOPATH=$GOPATH '{print GOPATH"/src/"$1}' | xargs  ctags -R .
+}
+
+[[ -t 0 ]] && [[ -f $HOME/.ssh/id_rsa-canonical ]] && ! ssh-add -l 1>/dev/null && ssh-add $HOME/.ssh/id_rsa-canonical
+
+[[ -d /usr/local/Cellar/gnu-sed/4.2.2/libexec/gnubin ]] && export PATH=/usr/local/Cellar/gnu-sed/4.2.2/libexec/gnubin:$PATH
+export CDPATH=$GOPATH/src/github.com:$GOPATH/src/code.google.com/p:$GOPATH/src/launchpad.net
+
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;30;40'
+alias gdbrun='gdb -x ~/gdb.bt --args' 
+alias gdbrun='gdb -x ~/gdb.bt --args' 

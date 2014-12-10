@@ -18,9 +18,15 @@ call pathogen#infect()
 "set guifont=9x15bold
 "set guifont=7x14bold
 "set guifont=7x13bold
-"set guifont=Monaco:h10
-set guifont=Envy\ Code\ R:h12
+"set guifont=Monaco:h11
+"set guifont=Envy\ Code\ R:h14
 "set guifont=Lucida\ Console:h12
+"set guifont=Inconsolata:h13
+"set guifont=monofur:h13
+"set guifont=ProggyTiny
+"set guifont=DejaVu\ Sans\ Mono
+set guifont=Ubuntu\ Mono:h14
+"set noantialias
 "
 "
 " The opposite is 'set wrapscan' while searching for strings....
@@ -37,6 +43,7 @@ map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
 
 "start selective import from http://amix.dk/vim/vimrc.html
+"=========================================================
 
 " When vimrc is edited, reload it
 autocmd! bufwritepost .vimrc source ~/.vimrc
@@ -84,23 +91,33 @@ if has("gui_running")
   set guioptions-=T
   set t_Co=256
   set background=dark
-"  colorscheme peaksea
-"  colorscheme solarized
-"  colorscheme proton "a light scheme
   set nonu
-  set transparency=15
+  set transparency=10
 elseif $ITERM_PROFILE != 'Default Light'
-"  colorscheme zellner
   set background=dark
 
   set nonu
 endif
-  colorscheme torte
+"light ones
+"  colorscheme proton 
+"  colorscheme zellner
+"colorscheme pyte
+"dark ones
 "  colorscheme ir_black
-"  colorscheme koehler
-"  colorscheme murphy
 " colorscheme vibrantink
-" colorscheme pyte
+"  colorscheme koehler
+" colorscheme murphy
+"  colorscheme peaksea
+"  colorscheme torte
+"colorscheme hornet
+"colorscheme lucius
+"colorscheme aldmeris
+"let g:aldmeris_transparent = 1
+"colorscheme synic
+"blue one
+"  colorscheme solarized
+"  curl -o ~/.vim/colors/molokai.vim https://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
+colorscheme molokai
 
 set encoding=utf8
 try
@@ -129,7 +146,7 @@ set expandtab
 set smarttab
 
 set lbr
-set tw=500 "textwidth - might want 80
+"set tw=500 "textwidth - might want 80
 
 set autoindent "aka ai
 set smartindent "aka si
@@ -302,7 +319,10 @@ endtry
 set laststatus=2
 
 " Format the statusline
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ %{fugitive#statusline()}\ \ Line:\ %l/%L:%c
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ %{fugitive#statusline()}\ \ Line:\ %l/%L:%c
+
+" fugitive kills buftype for scp so I disabled it.
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ -\ \ Line:\ %l/%L:%c
 
 
 function! CurDir()
@@ -352,6 +372,7 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 "map 0 ^
 
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+"JRW - these don't work in macvim, someday I'll figure them out
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
@@ -432,7 +453,7 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""
 " => Python section
 """"""""""""""""""""""""""""""
-let python_highlight_all = 1
+"let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
 
 au BufNewFile,BufRead *.jinja set syntax=htmljinja
@@ -446,6 +467,12 @@ au FileType python map <buffer> <leader>1 /class
 au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
+" see https://github.com/klen/python-mode
+"let g:pymode_lint_write=0
+"let g:pymod_run_key='R'
+"let g:pymode=1
+"let g:pymode_lint_checker="pyflakes,pep8"
+"let g:pymode_lint_onfly=0
 
 
 """"""""""""""""""""""""""""""
@@ -481,18 +508,9 @@ endfunction
 
 
 """"""""""""""""""""""""""""""
-" => Command-T
-""""""""""""""""""""""""""""""
-"let g:CommandTMaxHeight = 15
-"set wildignore+=*.o,*.obj,.git,*.pyc
-"noremap <leader>j :CommandT<cr>
-"noremap <leader>y :CommandTFlush<cr>
-
-
-""""""""""""""""""""""""""""""
 " => Vim grep
 """"""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
+let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated .bzr .git'
 "set grepprg=/bin/grep\ -nH
 
 
@@ -503,7 +521,6 @@ let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-"Quickly open a buffer for scripbble
 map <leader>q :e ~/buffer<cr>
 au BufRead,BufNewFile ~/buffer iab <buffer> xh1 ===========================================
 
@@ -512,6 +529,7 @@ map <leader>pp :setlocal paste!<cr>
 map <leader>bb :cd ..<cr>
 
 " end selective import from http://amix.dk/vim/vimrc.html
+"========================================================
 
 set cursorline
 
@@ -564,10 +582,10 @@ nnoremap  \  <C-^>
 au BufNewFile,BufRead *.vb			setf vb
 au BufNewFile,BufRead *.boo			setf boo
 
-set viminfo='20,\"50    " read/write a .viminfo file, don't store more than
+set viminfo='200,\"50,:100 " read/write a .viminfo file, don't store more than
 "                        " 50 lines of registers
 
-helptags ~/.vim/doc
+"helptags ~/.vim/doc
 
 if has("gui_running")
 	highlight SpellBad term=underline gui=undercurl guisp=Orange
@@ -585,9 +603,12 @@ autocmd BufRead *
       \ exec "set path^=".s:default_path
 set tags=tags;/
 
+"set foldenable=off "zi
 set foldmethod=indent
+set foldminlines=6 "fml
 set foldlevel=4
-set foldnestmax=4
+set foldnestmax=1
+set foldopen=all
 
 " supertab
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -637,9 +658,9 @@ function! Smart_TabComplete()
 endfunction
 inoremap <tab> <c-r>=Smart_TabComplete()<CR>
 
-let g:pyflakes_use_quickfix = 0
-autocmd BufNewFile,BufRead *.py compiler nose
-let g:syntastic_python_checker = 'pyflakes'
+"let g:pyflakes_use_quickfix = 0
+"autocmd BufNewFile,BufRead *.py compiler nose
+"let g:syntastic_python_checker = 'pyflakes'
 
 py << EOF
 import os.path
@@ -665,3 +686,93 @@ EOF
 
 let tlist_pyrex_settings='python;c:classe;m:memder;f:function'
 au BufNewFile,BufRead *.pxi			setf pyrex
+
+" restore cursor pos
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+augroup END
+
+set rtp+=/usr/local/Cellar/go/1.3/libexec/misc/vim
+
+"https://github.com/fatih/vim-go
+"g:go_disable_autoinstall = 1
+
+set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
+set rtp^=$HOME/.vim/bundle/ctrlp.vim
+
+"from vim-go
+au FileType go nmap <Leader>i <Plug>(go-info)
+"au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gd <Plug>(go-def)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>s <Plug>(go-implements)
+au FileType go nmap <leader>e <Plug>(go-rename)
+let g:go_fmt_command = "goimports"
+
+
+"vim-go works with ultisnips - https://github.com/sirver/ultisnips
+let g:UltiSnipsExpandTrigger="<shift-tab>"
+
+"neo requires lua
+let g:neocomplete#enable_at_startup = 1
+
+let g:tagbar_type_go = {  
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+au FileType go nmap <Leader>tb :TagbarToggle<CR>
+
+"TODO JRW add \cgpl, \cagpl, \clgpl with completion for canonical copyrights
+au FileType go nmap <leader>cgpl i// Copyright 2014 Canonical Ltd.
+// Licensed under the GPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cagpl i// Copyright 2014 Canonical Ltd.
+// Licensed under the AGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>clgpl i// Copyright 2014 Canonical Ltd.
+// Licensed under the LGPLv3, see LICENCE file for details.
+au FileType go map ,il o// Copyright 2014 Canonical Ltd.
+// Licensed under the LGPLv3, see LICENCE file for details.
+
+setlocal spell spelllang=en_us
+set bdir=~/tmp,~/
+
+function! Mdp()
+    write! /tmp/vim-markdown-preview
+    "call system('markdown /tmp/vim-markdown-preview > /tmp/vim-markdown-preview.html')
+    call system('VIRTUAL_ENV=/home/jrwren/venv ~/venv/bin/grip /tmp/vim-markdown-preview --export /tmp/vim-markdown-preview.html')
+    call system('open /tmp/vim-markdown-preview.html')
+endfunction
+command! -nargs=0 Mdp call Mdp()

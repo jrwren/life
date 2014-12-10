@@ -1,3 +1,5 @@
+[core]
+	excludesfile = /Users/jrwren/.gitignore_global
 [user]
 	name = Jay R. Wren
 	email = jrwren@xmtp.net
@@ -7,3 +9,5 @@
 	st = status
 [merge]
 	tool = kdiff3
+[push]
+	default = simple
