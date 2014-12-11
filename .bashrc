@@ -64,12 +64,22 @@ else
     PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;32m\]jrw@go\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 fi
 
+#function sshauthsock () {
+#SSH_AUTH_SOCK=$(lsof  -b  -a -p $(ps x | grep ssh-agen[t] | awk '{print $1}')  -a -U 2>/dev/null | awk '/3u/{print $8}')
+#}
+
 : ${TMPDIR:=/tmp}
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
-        PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+        UNAME=$(uname)
+        if [[ "$UNAME" == "Linux" ]]; then
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+        fi
+        if [[ "$UNAME" == "Darwin" ]]; then
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}_${PWD}_${WINDOW}\007";'
+        fi
     else
         PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007"'
     fi
