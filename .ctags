@@ -1,5 +1,6 @@
 -R
 --exclude=.svn
+--exclude=*~
 --exclude=.git
 --tag-relative=yes
 --PHP-kinds=+cf-v
