@@ -38,9 +38,7 @@ fi
 [[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim
 
 if [[ -z "$HOSTNAME" ]]; then HOSTNAME=`hostname`;fi
-if [[ "$HOSTNAME" == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
-
-type -p cowsay >/dev/null && trap 'cowsay "Have a nice day!"; sleep 1' EXIT
+if [[ `hostname -s` == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
 
 # some more ls aliases
 #alias ll='ls -l'
@@ -59,9 +57,9 @@ fi
 #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w \$ '
 #PS1='${debian_chroot:+($debian_chroot)}\e[1;31m[${PWD}:${WINDOW}${TMUX_PAIN}]\e[1;32m[\A]\e[m\e[1;36m\n[\u@\h:\$]\e[m '
 if [[ "$ITERM_PROFILE" == "Default Light" ]]; then
-    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;31m\]jrw@go\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;31m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 else
-    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;32m\]jrw@go\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;32m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 fi
 
 #function sshauthsock () {
@@ -75,13 +73,13 @@ xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
         UNAME=$(uname)
         if [[ "$UNAME" == "Linux" ]]; then
-            PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
         fi
         if [[ "$UNAME" == "Darwin" ]]; then
-            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}_${PWD}_${WINDOW}\007";'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
         fi
     else
-        PROMPT_COMMAND='echo -ne "\033]0;${USER}@`hostname -s`: ${PWD}:${WINDOW}\007"'
+        PROMPT_COMMAND='echo -ne "\033]0;${USER}@$HOSTNAME:${PWD}:${WINDOW}\007"'
     fi
     ;;
 *)
@@ -206,11 +204,14 @@ MOVIES=delays:/d/movies
 MUSIC=delays:Music/mp3
 [[ -r .bashrc-$hostname ]] && source .bashrc-$hostname
 
-GOROOT=/usr/local/Cellar/go/1.3/libexec
+#GOROOT=/usr/local/Cellar/go/1.3/libexec
+#[[ -d $GOROOT ]] && export GOROOT || unset GOROOT
 HOMES=$(readlink /home)
 export GOPATH=$HOMES/jrwren/go
-[[ -d $GOROOT ]] && export GOROOT || unset GOROOT
 PATH=$GOPATH/bin:$PATH
+
+type -p petname >/dev/null && PETNAME=$(petname -words=3)
+type -p cowsay >/dev/null && trap 'cowsay "Have a nice day! $PETNAME"; sleep 1' EXIT
 
 goctags () {
     godeps ./... | awk -v GOPATH=$GOPATH '{print GOPATH"/src/"$1}' | xargs  ctags -R .

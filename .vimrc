@@ -757,14 +757,10 @@ let g:tagbar_type_go = {
 au FileType go nmap <Leader>tb :TagbarToggle<CR>
 
 "TODO JRW add \cgpl, \cagpl, \clgpl with completion for canonical copyrights
-au FileType go nmap <leader>cgpl i// Copyright 2014 Canonical Ltd.
-// Licensed under the GPLv3, see LICENCE file for details.
-au FileType go nmap <leader>cagpl i// Copyright 2014 Canonical Ltd.
-// Licensed under the AGPLv3, see LICENCE file for details.
-au FileType go nmap <leader>clgpl i// Copyright 2014 Canonical Ltd.
-// Licensed under the LGPLv3, see LICENCE file for details.
-au FileType go map ,il o// Copyright 2014 Canonical Ltd.
-// Licensed under the LGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cgpl i// Copyright 2014 Canonical Ltd.  // Licensed under the GPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cagpl i// Copyright 2014 Canonical Ltd.  // Licensed under the AGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>clgpl i// Copyright 2014 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
+au FileType go map ,il o// Copyright 2014 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
 
 setlocal spell spelllang=en_us
 set bdir=~/tmp,~/
