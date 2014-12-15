@@ -188,9 +188,6 @@ if `tty | grep -- '/dev/tty[1-6]'` ; then loadkeys jrw.kmap.gz ; fi
 if [[ -x /usr/local/heroku/bin ]]; then export PATH="/usr/local/heroku/bin:$PATH" ;fi
 
 
-if [[ "jwren13.local" == $HOSTNAME || "$HOSTNAME" =~ .*arbor.net$ ]]; then
-    source .bashrc-arbor
-fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 export PYENV_ROOT=/usr/local/opt/pyenv
 export LSCOLORS=ExfxcxdxCxegedabagacad
@@ -206,7 +203,8 @@ MUSIC=delays:Music/mp3
 
 #GOROOT=/usr/local/Cellar/go/1.3/libexec
 #[[ -d $GOROOT ]] && export GOROOT || unset GOROOT
-HOMES=$(readlink /home)
+HOMES=/home
+[[ -L /home ]] && HOMES=$(readlink /home)
 export GOPATH=$HOMES/jrwren/go
 PATH=$GOPATH/bin:$PATH
 
@@ -217,12 +215,13 @@ goctags () {
     godeps ./... | awk -v GOPATH=$GOPATH '{print GOPATH"/src/"$1}' | xargs  ctags -R .
 }
 
-[[ -t 0 ]] && [[ -f $HOME/.ssh/id_rsa-canonical ]] && ! ssh-add -l 1>/dev/null && ssh-add $HOME/.ssh/id_rsa-canonical
-
 [[ -d /usr/local/Cellar/gnu-sed/4.2.2/libexec/gnubin ]] && export PATH=/usr/local/Cellar/gnu-sed/4.2.2/libexec/gnubin:$PATH
-export CDPATH=$GOPATH/src/github.com:$GOPATH/src/code.google.com/p:$GOPATH/src/launchpad.net
+#export CDPATH=$GOPATH/src/github.com:$GOPATH/src/code.google.com/p:$GOPATH/src/launchpad.net
 
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;30;40'
 alias gdbrun='gdb -x ~/gdb.bt --args' 
 alias gdbrun='gdb -x ~/gdb.bt --args' 
+
+[[ -t 0 ]] && [[ -f $HOME/.ssh/id_rsa-canonical ]] && ! ssh-add -l 1>/dev/null && ssh-add $HOME/.ssh/id_rsa-canonical
+
