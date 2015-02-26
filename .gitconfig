@@ -6,8 +6,10 @@
 [color]
 	ui = auto
 [alias]
-	st = status
+    st = status
+    lp = log -p
+    edit-last-commit = !mvim `git diff-tree -r --name-only HEAD HEAD~1`
 [merge]
 	tool = kdiff3
 [push]
-	default = simple
+	default = current
