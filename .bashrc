@@ -210,7 +210,7 @@ export GOPATH=$HOMES/jrwren/go
 PATH=$GOPATH/bin:$PATH
 
 type -p petname >/dev/null && PETNAME=$(petname -words=3)
-type -p cowsay >/dev/null && trap 'cowsay "Have a nice day! $PETNAME"; sleep 1' EXIT
+type -p cowsay >/dev/null && trap 'cowsay "Have a nice day! $PETNAME"; sleep 3' EXIT
 
 goctags () {
     godeps ./... | awk -v GOPATH=$GOPATH '{print GOPATH"/src/"$1}' | xargs  ctags -R .

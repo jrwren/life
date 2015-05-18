@@ -92,18 +92,18 @@ if has("gui_running")
   set t_Co=256
   set background=dark
   set nonu
-  set transparency=10
+  set transparency=0
 elseif $ITERM_PROFILE != 'Default Light'
   set background=dark
 
   set nonu
 endif
 "light ones
-"  colorscheme proton 
-"  colorscheme zellner
-"colorscheme pyte
-"dark ones
-"  colorscheme ir_black
+"  colorscheme proton   "blue-grey on white
+"  colorscheme zellner   "black on white red purple blue
+"colorscheme pyte     "black on white yellow green red
+
+  colorscheme ir_black   "white on black, offwhite, green,  blue
 " colorscheme vibrantink
 "  colorscheme koehler
 " colorscheme murphy
@@ -117,7 +117,9 @@ endif
 "blue one
 "  colorscheme solarized
 "  curl -o ~/.vim/colors/molokai.vim https://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
-colorscheme molokai
+" colorscheme molokai
+"  curl -L -o ~/.vim/colors/carrot.vim http://www.vim.org/scripts/download_script.php?src_id=7602
+" colorscheme carrot
 
 set encoding=utf8
 try
