@@ -20,7 +20,8 @@ if [[ "$TERM" != "dumb" ]]; then
     else
         alias ls='ls -G'
     fi
-    alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- `ls -rtQ *.torrent`'
+    #alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- `ls -rtQ *.torrent`'
+    alias rt="rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent'"
     alias tmuxa='tmux attach-session -t 0'
     alias phpman='man -M ~/pear/docs/pman'
 	#alias less='less -r'
@@ -73,7 +74,7 @@ xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
         UNAME=$(uname)
         if [[ "$UNAME" == "Linux" ]]; then
-            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
         fi
         if [[ "$UNAME" == "Darwin" ]]; then
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
