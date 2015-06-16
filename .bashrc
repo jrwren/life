@@ -20,7 +20,8 @@ if [[ "$TERM" != "dumb" ]]; then
     else
         alias ls='ls -G'
     fi
-    alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- `ls -rtQ *.torrent`'
+    #alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- `ls -rtQ *.torrent`'
+    alias rt="rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent'"
     alias tmuxa='tmux attach-session -t 0'
     alias phpman='man -M ~/pear/docs/pman'
 	#alias less='less -r'
@@ -208,8 +209,10 @@ HOMES=/home
 export GOPATH=$HOMES/jrwren/go
 PATH=$GOPATH/bin:$PATH
 
-type -p petname >/dev/null && PETNAME=$(petname -words=3)
-type -p cowsay >/dev/null && trap 'cowsay "Have a nice day! $PETNAME"; sleep 1' EXIT
+type -p lolcat >/dev/null && LOLCAT="lolcat -p .5" || LOLCAT=cat
+type -p petname >/dev/null && PETNAME=$(petname -words=3) &&
+type -p figlet >/dev/null && trap 'figlet $PETNAME | $LOLCAT; sleep 1' EXIT ||
+{ type -p cowsay >/dev/null && trap 'cowsay "Have a nice day! $PETNAME"; sleep 1' EXIT ; }
 
 goctags () {
     godeps ./... | awk -v GOPATH=$GOPATH '{print GOPATH"/src/"$1}' | xargs  ctags -R .
