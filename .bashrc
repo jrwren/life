@@ -74,7 +74,7 @@ xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
         UNAME=$(uname)
         if [[ "$UNAME" == "Linux" ]]; then
-            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
         fi
         if [[ "$UNAME" == "Darwin" ]]; then
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
