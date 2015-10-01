@@ -8,8 +8,10 @@
 "  for MS-DOS and Win32:  $VIM\_gvimrc
 " Make external commands work through a pipe instead of a pseudo-tty
 
+filetype off "it turns on later
 "pathogen https://github.com/tpope/vim-pathogen
 call pathogen#infect()
+call pathogen#helptags()
 
 "set noguipty
 " set the X11 font to use. See 'man xlsfonts' on unix/linux
@@ -25,7 +27,14 @@ call pathogen#infect()
 "set guifont=monofur:h13
 "set guifont=ProggyTiny
 "set guifont=DejaVu\ Sans\ Mono
-set guifont=Ubuntu\ Mono:h14
+"set guifont=Ubuntu\ Mono:h14
+"set guifont=Menlo\ Regular:h13
+"set guifont=CodingFontTobi:h16
+"set guifont=ProggyClean
+"set guifont=ProggySquare
+"set guifont=Crisp
+"set guifont=PixelCarnageMonoTT
+set guifont=Consolas:h13
 "set noantialias
 "
 "
@@ -50,7 +59,7 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 
 set history=700
 
-filetype on
+"filetype on
 filetype plugin indent on
 
 
@@ -103,7 +112,7 @@ endif
 "  colorscheme zellner   "black on white red purple blue
 "colorscheme pyte     "black on white yellow green red
 
-  colorscheme ir_black   "white on black, offwhite, green,  blue
+"  colorscheme ir_black   "white on black, offwhite, green,  blue
 " colorscheme vibrantink
 "  colorscheme koehler
 " colorscheme murphy
@@ -119,7 +128,9 @@ endif
 "  curl -o ~/.vim/colors/molokai.vim https://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
 " colorscheme molokai
 "  curl -L -o ~/.vim/colors/carrot.vim http://www.vim.org/scripts/download_script.php?src_id=7602
-" colorscheme carrot
+ colorscheme carrot
+" colorscheme gryftir
+" colorscheme seti
 
 set encoding=utf8
 try
@@ -321,10 +332,10 @@ endtry
 set laststatus=2
 
 " Format the statusline
-"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ %{fugitive#statusline()}\ \ Line:\ %l/%L:%c
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ %{fugitive#statusline()}\ \ Line:\ %l/%L:%c
 
 " fugitive kills buftype for scp so I disabled it.
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ -\ \ Line:\ %l/%L:%c
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ -\ \ Line:\ %l/%L:%c
 
 
 function! CurDir()
@@ -455,8 +466,8 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""
 " => Python section
 """"""""""""""""""""""""""""""
-"let python_highlight_all = 1
-au FileType python syn keyword pythonDecorator True None False self
+let python_highlight_all = 1
+"au FileType python syn keyword pythonDecorator True None False self
 
 au BufNewFile,BufRead *.jinja set syntax=htmljinja
 au BufNewFile,BufRead *.mako set ft=mako
@@ -469,12 +480,17 @@ au FileType python map <buffer> <leader>1 /class
 au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
+
 " see https://github.com/klen/python-mode
 "let g:pymode_lint_write=0
-"let g:pymod_run_key='R'
+"let g:pymode_run_key='R'
 "let g:pymode=1
 "let g:pymode_lint_checker="pyflakes,pep8"
-"let g:pymode_lint_onfly=0
+let g:pymode_lint_checker="flake8"
+let g:pymode_lint_onfly=1
+" Override go-to.definition key shortcut to Ctrl-]
+let g:pymode_rope_goto_definition_bind = "<C-]>"
+
 
 
 """"""""""""""""""""""""""""""
@@ -710,6 +726,9 @@ set rtp+=/usr/local/Cellar/go/1.3/libexec/misc/vim
 set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
 set rtp^=$HOME/.vim/bundle/ctrlp.vim
 
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
 "from vim-go
 au FileType go nmap <Leader>i <Plug>(go-info)
 "au FileType go nmap <Leader>gd <Plug>(go-doc)
@@ -724,10 +743,10 @@ let g:go_fmt_command = "goimports"
 
 
 "vim-go works with ultisnips - https://github.com/sirver/ultisnips
-let g:UltiSnipsExpandTrigger="<shift-tab>"
+"let g:UltiSnipsExpandTrigger="<shift-tab>"
 
 "neo requires lua
-let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_at_startup = 1
 
 let g:tagbar_type_go = {  
     \ 'ctagstype' : 'go',
@@ -767,6 +786,7 @@ au FileType go map ,il o// Copyright 2014 Canonical Ltd.  // Licensed under the 
 setlocal spell spelllang=en_us
 set bdir=~/tmp,~/
 
+" Mark Down Preview use :Mdp
 function! Mdp()
     write! /tmp/vim-markdown-preview
     "call system('markdown /tmp/vim-markdown-preview > /tmp/vim-markdown-preview.html')
@@ -774,3 +794,13 @@ function! Mdp()
     call system('open /tmp/vim-markdown-preview.html')
 endfunction
 command! -nargs=0 Mdp call Mdp()
+
+" syntastic recommends
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_python_checker = 0
