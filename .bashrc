@@ -136,6 +136,9 @@ fi
 if [[ -r /usr/local/git/contrib/completion/git-completion.bash ]]; then
     source /usr/local/git/contrib/completion/git-completion.bash
 fi
+XCODE_DEV_TOOLS=/Applications/Xcode.app/Contents/Developer/usr/share/git-core
+[[ -r $XCODE_DEV_TOOLS/git_completion.bash ]] && source $XCODE_DEV_TOOLS/git_completion.bash
+[[ -r $XCODE_DEV_TOOLS/git-prompt.sh ]] && source $XCODE_DEV_TOOLS/git-prompt.sh
 [[ -r /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
 [[ -r /usr/local/etc/bash_completion.d/git-completion.bash ]] && source /usr/local/etc/bash_completion.d/git-completion.bash
 [[ -r /usr/local/etc/bash_completion.d/git-prompt.sh ]] && source /usr/local/etc/bash_completion.d/git-prompt.sh
