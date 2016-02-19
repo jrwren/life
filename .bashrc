@@ -74,7 +74,7 @@ xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
         UNAME=$(uname)
         if [[ "$UNAME" == "Linux" ]]; then
-            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" || ! -s "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
         fi
         if [[ "$UNAME" == "Darwin" ]]; then
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
@@ -224,7 +224,6 @@ goctags () {
 [[ -d /usr/local/Cellar/gnu-sed/4.2.2/libexec/gnubin ]] && export PATH=/usr/local/Cellar/gnu-sed/4.2.2/libexec/gnubin:$PATH
 #export CDPATH=$GOPATH/src/github.com:$GOPATH/src/code.google.com/p:$GOPATH/src/launchpad.net
 
-export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;30;40'
 alias gdbrun='gdb -x ~/gdb.bt --args' 
 alias gdbrun='gdb -x ~/gdb.bt --args' 
@@ -232,3 +231,19 @@ alias gdbrun='gdb -x ~/gdb.bt --args'
 [[ -t 0 ]] && [[ -f $HOME/.ssh/id_rsa-canonical ]] && ! ssh-add -l 1>/dev/null && ssh-add $HOME/.ssh/id_rsa-canonical
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
+function lxc-rm {
+    lxc-stop -n $@
+    lxc-destroy -n $@
+}
+function lxc-run {
+    lxc-create $@
+    while getopts n ;do
+        case $opt in
+            n)
+            NAME="$OPTARG"
+            break
+            ;;
+        esac
+    done
+    lxc-start -n $name
+}
