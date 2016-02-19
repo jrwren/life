@@ -231,3 +231,4 @@ alias gdbrun='gdb -x ~/gdb.bt --args'
 
 [[ -t 0 ]] && [[ -f $HOME/.ssh/id_rsa-canonical ]] && ! ssh-add -l 1>/dev/null && ssh-add $HOME/.ssh/id_rsa-canonical
 
+code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}

@@ -718,16 +718,18 @@ augroup resCur
   autocmd BufWinEnter * call ResCur()
 augroup END
 
-set rtp+=/usr/local/Cellar/go/1.3/libexec/misc/vim
+" gone
+"set rtp+=/usr/local/Cellar/go/1.5/libexec/misc/vim
 
 "https://github.com/fatih/vim-go
 "g:go_disable_autoinstall = 1
 
-set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
+"set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
 set rtp^=$HOME/.vim/bundle/ctrlp.vim
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_root_markers = ['requirements.txt', 'configure']
 
 "from vim-go
 au FileType go nmap <Leader>i <Plug>(go-info)
@@ -739,14 +741,32 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>s <Plug>(go-implements)
 au FileType go nmap <leader>e <Plug>(go-rename)
-let g:go_fmt_command = "goimports"
+"let g:go_fmt_command = "goimports"
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 
 "vim-go works with ultisnips - https://github.com/sirver/ultisnips
 "let g:UltiSnipsExpandTrigger="<shift-tab>"
 
 "neo requires lua
-"let g:neocomplete#enable_at_startup = 1
+"if has('neocomplete')
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    if !exists('g:neocomplete#sources')
+        let g:neocomplete#sources = {}
+    endif
+    let g:neocomplete#sources._ = ['buffer', 'member', 'tag', 'file', 'dictionary']
+    let g:neocomplete#sources.go = ['omni']
+
+    " disable sorting
+    "call neocomplete#custom#source('_', 'sorters', [])
+"endif
 
 let g:tagbar_type_go = {  
     \ 'ctagstype' : 'go',
@@ -795,12 +815,17 @@ function! Mdp()
 endfunction
 command! -nargs=0 Mdp call Mdp()
 
-" syntastic recommends
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+if has('syntastic')
+    " syntastic recommends
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endif
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_python_checker = 0
+" syntastic go sucks, let vim-go do that work. See vim-go README
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
