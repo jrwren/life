@@ -126,11 +126,11 @@ endif
 "blue one
 "  colorscheme solarized
 "  curl -o ~/.vim/colors/molokai.vim https://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
-" colorscheme molokai
+colorscheme molokai
 "  curl -L -o ~/.vim/colors/carrot.vim http://www.vim.org/scripts/download_script.php?src_id=7602
- colorscheme carrot
+"  colorscheme carrot
 " colorscheme gryftir
-" colorscheme seti
+"colorscheme seti
 
 set encoding=utf8
 try
@@ -573,6 +573,7 @@ normal mz
   "highlight NonText guibg=grey80
   "highlight Constant gui=NONE guibg=grey95
   "highlight Special gui=NONE guibg=grey95
+  set mouse=a
 
 set nocompatible
 set backup
@@ -741,7 +742,7 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>s <Plug>(go-implements)
 au FileType go nmap <leader>e <Plug>(go-rename)
-"let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "goimports"
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -751,7 +752,7 @@ let g:go_highlight_build_constraints = 1
 
 
 "vim-go works with ultisnips - https://github.com/sirver/ultisnips
-"let g:UltiSnipsExpandTrigger="<shift-tab>"
+let g:UltiSnipsExpandTrigger="<shift-tab>"
 
 "neo requires lua
 "if has('neocomplete')
