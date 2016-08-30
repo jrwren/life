@@ -20,8 +20,8 @@ call pathogen#helptags()
 "set guifont=9x15bold
 "set guifont=7x14bold
 "set guifont=7x13bold
-"set guifont=Monaco:h11
-"set guifont=Envy\ Code\ R:h14
+"set guifont=Monaco:h14
+set guifont=Envy\ Code\ R:h13
 "set guifont=Lucida\ Console:h12
 "set guifont=Inconsolata:h13
 "set guifont=monofur:h13
@@ -34,7 +34,7 @@ call pathogen#helptags()
 "set guifont=ProggySquare
 "set guifont=Crisp
 "set guifont=PixelCarnageMonoTT
-set guifont=Consolas:h13
+"set guifont=Consolas:h13
 "set noantialias
 "
 "
@@ -742,7 +742,7 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>s <Plug>(go-implements)
 au FileType go nmap <leader>e <Plug>(go-rename)
-let g:go_fmt_command = "goimports"
+"let g:go_fmt_command = "goimports"
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -799,9 +799,9 @@ let g:tagbar_type_go = {
 au FileType go nmap <Leader>tb :TagbarToggle<CR>
 
 "TODO JRW add \cgpl, \cagpl, \clgpl with completion for canonical copyrights
-au FileType go nmap <leader>cgpl i// Copyright 2014 Canonical Ltd.  // Licensed under the GPLv3, see LICENCE file for details.
-au FileType go nmap <leader>cagpl i// Copyright 2014 Canonical Ltd.  // Licensed under the AGPLv3, see LICENCE file for details.
-au FileType go nmap <leader>clgpl i// Copyright 2014 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cgpl i// Copyright 2016 Canonical Ltd.  // Licensed under the GPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cagpl i// Copyright 2016 Canonical Ltd.  // Licensed under the AGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>clgpl i// Copyright 2016 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
 au FileType go map ,il o// Copyright 2014 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
 
 setlocal spell spelllang=en_us
@@ -828,5 +828,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_python_checker = 0
 " syntastic go sucks, let vim-go do that work. See vim-go README
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_go_checkers = ['']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
