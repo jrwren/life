@@ -8,8 +8,3 @@
 --regex-PHP=/interface\s+([^ ]+)/\1/c/
 --regex-PHP=/(public\s+|static\s+|abstract\s+|protected\s+|private\s+)function\s+\&?\s*([^ (]+)/\2/f/
 --langmap=PHP:+.inc
---langdef=Go
---langmap=Go:.go
---regex-Go=/func([ \t]+\([^)]+\))?[ \t]+([a-zA-Z0-9_]+)/\2/d,func/
---regex-Go=/var[ \t]+([a-zA-Z_][a-zA-Z0-9_]+)/\1/d,var/
---regex-Go=/type[ \t]+([a-zA-Z_][a-zA-Z0-9_]+)/\1/d,type/

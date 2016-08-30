@@ -16,4 +16,12 @@
 [filter "hawser"]
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
-	required = true
+    required = true
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+[url "ssh://evarlast@git.launchpad.net/"]
+    insteadOf = lp:
+[url "git+ssh://evarlast@git.launchpad.net/~evarlast/ubuntu/+source/"]
+    insteadof = lpmep:
+[url "git@github.com:"]
+    insteadOf = sgh:

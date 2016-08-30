@@ -22,6 +22,8 @@ if [[ "$TERM" != "dumb" ]]; then
     fi
     #alias rt='ionice -c 3 rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent' -- `ls -rtQ *.torrent`'
     alias rt="rtorrent -O 'schedule=watchdir,0,1,load_start=*.torrent'"
+    # `tmux new-session -t 1` to create a new session attached to session 1
+    # `tmux list-sessions` to liste the sessions
     alias tmuxa='tmux attach-session -t 0'
     alias phpman='man -M ~/pear/docs/pman'
 	#alias less='less -r'
@@ -67,14 +69,16 @@ fi
 #SSH_AUTH_SOCK=$(lsof  -b  -a -p $(ps x | grep ssh-agen[t] | awk '{print $1}')  -a -U 2>/dev/null | awk '/3u/{print $8}')
 #}
 
+[[ -d $HOME/tmp ]] && export TMPDIR=$HOME/tmp
 : ${TMPDIR:=/tmp}
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*|screen*)
     if [[ ! -z "`find --version 2>/dev/null | grep GNU`" ]];then
         UNAME=$(uname)
         if [[ "$UNAME" == "Linux" ]]; then
-            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" || ! -s "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" || ! -s "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find /tmp/ssh* $TMPDIR/ssh*  -type s -printf "%T+ %p\n" 2>/dev/null | head -1 | cut -f 2 -d " "`'
         fi
         if [[ "$UNAME" == "Darwin" ]]; then
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
@@ -147,7 +151,7 @@ if [[ -r /etc/bash_completion.d/git ]]; then
 fi
 PS1=$PS1'$(__git_ps1 " (%s)") '
 
-PS1=$PS1'👻  $ '
+PS1=$PS1'$? 👻  $ '
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
 
@@ -245,4 +249,17 @@ function lxc-run {
         esac
     done
     lxc-start -n $name
+}
+
+# color man pages - http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
+man() {
+	env \
+		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+		LESS_TERMCAP_md=$(printf "\e[1;31m") \
+		LESS_TERMCAP_me=$(printf "\e[0m") \
+		LESS_TERMCAP_se=$(printf "\e[0m") \
+		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+		LESS_TERMCAP_ue=$(printf "\e[0m") \
+		LESS_TERMCAP_us=$(printf "\e[1;32m") \
+			man "$@"
 }
