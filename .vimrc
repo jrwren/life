@@ -13,6 +13,8 @@ filetype off "it turns on later
 call pathogen#infect()
 call pathogen#helptags()
 
+set macligatures
+"set guifont=Fira\ Code:h13
 "set noguipty
 " set the X11 font to use. See 'man xlsfonts' on unix/linux
 " set guifont=-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
@@ -652,6 +654,7 @@ set number
 "autocmd WinEnter * if !exists('w:created') | let w:m2=matchadd('LineOverflow', '\%>80v.\+', -1) | endif
 
 highlight ExtraWhitespace2 ctermbg=red ctermfg=white guibg=red | match ExtraWhitespace2 /\s\+$\| \+\ze\t/
+highlight Comment cterm=italic
 
 "see above
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P

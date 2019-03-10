@@ -58,9 +58,9 @@ fi
 #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w \$ '
 #PS1='${debian_chroot:+($debian_chroot)}\e[1;31m[${PWD}:${WINDOW}${TMUX_PAIN}]\e[1;32m[\A]\e[m\e[1;36m\n[\u@\h:\$]\e[m '
 if [[ "$ITERM_PROFILE" == "Default Light" ]]; then
-    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;31m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%y%m%d-%H%M%S}\[\033[01;31m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 else
-    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;32m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%y%m%d-%H%M%S}\[\033[01;32m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 fi
 
 #function sshauthsock () {
@@ -153,6 +153,7 @@ PS1=$PS1'👻  $ '
 
 #[[ -s "$HOME/venv/bin/activate" ]] && source "$HOME/venv/bin/activate" # This uses a default python virtualenv
 alias venv='source $HOME/venv/bin/activate'
+alias venv3='source $HOME/venv3/bin/activate'
 
 type -p brew >/dev/null && hash brew 2>/dev/null && [[ -s `brew --prefix`/Library/Contributions/brew_bash_completion.sh ]] && source `brew --prefix`/Library/Contributions/brew_bash_completion.sh
 
@@ -247,3 +248,9 @@ function lxc-run {
     done
     lxc-start -n $name
 }
+# I keep a lot of large directories. `ls -alrt | tail` is too slow. This is faster.
+function l-n {
+    find ${1:-.} -maxdepth 1 -mtime -1 -ls
+}
+
+export HOMEBREW_NO_ANALYTICS=1
