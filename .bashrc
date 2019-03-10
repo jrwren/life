@@ -36,7 +36,7 @@ if [[ ! -z $DISPLAY ]];then
     alias vi='vim -X'
     alias vim='vim -X'
 fi
-[[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim
+[[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim && alias mvim=/Applications/MacVim.app/Contents/bin/mvim
 
 if [[ -z "$HOSTNAME" ]]; then HOSTNAME=`hostname`;fi
 if [[ `hostname -s` == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
@@ -205,13 +205,12 @@ TV=delays:/d/tv
 MOVIES=delays:/d/movies
 MUSIC=delays:Music/mp3
 [[ -r .bashrc-$hostname ]] && source .bashrc-$hostname
+[[ -r .bashrc-local ]] && source .bashrc-local
 
 #GOROOT=/usr/local/Cellar/go/1.3/libexec
 #[[ -d $GOROOT ]] && export GOROOT || unset GOROOT
 HOMES=/home
 [[ -L /home ]] && HOMES=$(readlink /home)
-export GOPATH=$HOMES/jrwren/go
-PATH=$GOPATH/bin:$PATH
 
 type -p lolcat >/dev/null && LOLCAT="lolcat -p .5" || LOLCAT=cat
 type -p petname >/dev/null && PETNAME=$(petname -words=3) &&
@@ -254,3 +253,5 @@ function l-n {
 }
 
 export HOMEBREW_NO_ANALYTICS=1
+
+type -p kubectl >/dev/null && source <(kubectl completion bash)
