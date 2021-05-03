@@ -1,0 +1,21 @@
+#!/bin/bash
+cd /var/log
+#todo tail many things w/ this 1 parent process
+# apt-cacher-ng/apt-cacher.log
+#tail -F apache2/{error,access}.log syslog auth.log samba/log.all dpkg.log | grep -v -E 'error on subcontainer|pam_unix\(cron:session\): session (opened|closed) for|"GET / HTTP/1.1" 200 1496 "-" "check_http/v1.4.15 \(nagios-plugins 1.4.15\)"|dhcpd: server: host unknown.|dhcpd: dhcp.c\([0-9]+\): non-null pointer|mongod.*authenticate
+#db: admin|mongod\.37017' | ccze -A
+
+set -meb
+
+function _exit() { kill %1; kill %2; kill %3; kill %4; }
+
+trap _exit EXIT
+
+#tail -vF {nginx,apache2}/{error,access}.log | grep -v '/server-status?auto'| ccze -A &
+#tail -vF {nginx,apache2}/{ssl_,}{error,access}.log | ccze -A &
+tail -vF apache2/{error,access}.log | ccze -A &
+tail -vF syslog | grep -v 'udisks_mount_get_mount_path' | ccze -A -p syslog &
+tail -vF auth.log | grep -Fv 'pam_unix\(cron:session'| ccze -A -p syslog &
+tail -vF samba/log.all | ccze -A &
+tail -vF dpkg.log | ccze -A
+
