@@ -13,6 +13,8 @@ filetype off "it turns on later
 call pathogen#infect()
 call pathogen#helptags()
 
+set macligatures
+"set guifont=Fira\ Code:h13
 "set noguipty
 " set the X11 font to use. See 'man xlsfonts' on unix/linux
 " set guifont=-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
@@ -20,8 +22,8 @@ call pathogen#helptags()
 "set guifont=9x15bold
 "set guifont=7x14bold
 "set guifont=7x13bold
-"set guifont=Monaco:h11
-"set guifont=Envy\ Code\ R:h14
+"set guifont=Monaco:h14
+set guifont=Envy\ Code\ R:h13
 "set guifont=Lucida\ Console:h12
 "set guifont=Inconsolata:h13
 "set guifont=monofur:h13
@@ -34,7 +36,7 @@ call pathogen#helptags()
 "set guifont=ProggySquare
 "set guifont=Crisp
 "set guifont=PixelCarnageMonoTT
-set guifont=Consolas:h13
+"set guifont=Consolas:h13
 "set noantialias
 "
 "
@@ -126,11 +128,11 @@ endif
 "blue one
 "  colorscheme solarized
 "  curl -o ~/.vim/colors/molokai.vim https://raw.githubusercontent.com/fatih/molokai/master/colors/molokai.vim
-" colorscheme molokai
+colorscheme molokai
 "  curl -L -o ~/.vim/colors/carrot.vim http://www.vim.org/scripts/download_script.php?src_id=7602
- colorscheme carrot
+"  colorscheme carrot
 " colorscheme gryftir
-" colorscheme seti
+"colorscheme seti
 
 set encoding=utf8
 try
@@ -573,6 +575,7 @@ normal mz
   "highlight NonText guibg=grey80
   "highlight Constant gui=NONE guibg=grey95
   "highlight Special gui=NONE guibg=grey95
+  set mouse=a
 
 set nocompatible
 set backup
@@ -651,6 +654,7 @@ set number
 "autocmd WinEnter * if !exists('w:created') | let w:m2=matchadd('LineOverflow', '\%>80v.\+', -1) | endif
 
 highlight ExtraWhitespace2 ctermbg=red ctermfg=white guibg=red | match ExtraWhitespace2 /\s\+$\| \+\ze\t/
+highlight Comment cterm=italic
 
 "see above
 "set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
@@ -718,16 +722,18 @@ augroup resCur
   autocmd BufWinEnter * call ResCur()
 augroup END
 
-set rtp+=/usr/local/Cellar/go/1.3/libexec/misc/vim
+" gone
+"set rtp+=/usr/local/Cellar/go/1.5/libexec/misc/vim
 
 "https://github.com/fatih/vim-go
 "g:go_disable_autoinstall = 1
 
-set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
+"set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
 set rtp^=$HOME/.vim/bundle/ctrlp.vim
 
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_root_markers = ['requirements.txt', 'configure']
 
 "from vim-go
 au FileType go nmap <Leader>i <Plug>(go-info)
@@ -739,14 +745,32 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>s <Plug>(go-implements)
 au FileType go nmap <leader>e <Plug>(go-rename)
-let g:go_fmt_command = "goimports"
+"let g:go_fmt_command = "goimports"
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 
 "vim-go works with ultisnips - https://github.com/sirver/ultisnips
-"let g:UltiSnipsExpandTrigger="<shift-tab>"
+let g:UltiSnipsExpandTrigger="<shift-tab>"
 
 "neo requires lua
-"let g:neocomplete#enable_at_startup = 1
+"if has('neocomplete')
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    if !exists('g:neocomplete#sources')
+        let g:neocomplete#sources = {}
+    endif
+    let g:neocomplete#sources._ = ['buffer', 'member', 'tag', 'file', 'dictionary']
+    let g:neocomplete#sources.go = ['omni']
+
+    " disable sorting
+    "call neocomplete#custom#source('_', 'sorters', [])
+"endif
 
 let g:tagbar_type_go = {  
     \ 'ctagstype' : 'go',
@@ -778,9 +802,9 @@ let g:tagbar_type_go = {
 au FileType go nmap <Leader>tb :TagbarToggle<CR>
 
 "TODO JRW add \cgpl, \cagpl, \clgpl with completion for canonical copyrights
-au FileType go nmap <leader>cgpl i// Copyright 2014 Canonical Ltd.  // Licensed under the GPLv3, see LICENCE file for details.
-au FileType go nmap <leader>cagpl i// Copyright 2014 Canonical Ltd.  // Licensed under the AGPLv3, see LICENCE file for details.
-au FileType go nmap <leader>clgpl i// Copyright 2014 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cgpl i// Copyright 2016 Canonical Ltd.  // Licensed under the GPLv3, see LICENCE file for details.
+au FileType go nmap <leader>cagpl i// Copyright 2016 Canonical Ltd.  // Licensed under the AGPLv3, see LICENCE file for details.
+au FileType go nmap <leader>clgpl i// Copyright 2016 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
 au FileType go map ,il o// Copyright 2014 Canonical Ltd.  // Licensed under the LGPLv3, see LICENCE file for details.
 
 setlocal spell spelllang=en_us
@@ -795,12 +819,18 @@ function! Mdp()
 endfunction
 command! -nargs=0 Mdp call Mdp()
 
-" syntastic recommends
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+if has('syntastic')
+    " syntastic recommends
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endif
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_python_checker = 0
+" syntastic go sucks, let vim-go do that work. See vim-go README
+"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_go_checkers = ['']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }

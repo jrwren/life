@@ -43,7 +43,7 @@ if [[ ! -v DISPLAY ]];then
     alias vi='vim -X'
     alias vim='vim -X'
 fi
-[[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim
+[[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim && alias mvim=/Applications/MacVim.app/Contents/bin/mvim
 
 if [[ -v HOSTNAME ]]; then HOSTNAME=`hostname`;fi
 if [[ `hostname -s` == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
@@ -70,7 +70,7 @@ PS1='${debian_chroot:+($debian_chroot)}\e[1;31m[${PWD}:${WINDOW}${TMUX_PAIN}]\e[
 if [[ -v ITERM_PROFILE && "$ITERM_PROFILE" == "Default Light" ]]; then
     PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;31m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 else
-    PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;32m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\D{%y%m%d-%H%M%S}\[\033[01;32m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 fi
 
 function sshauthsock () {
@@ -165,6 +165,7 @@ PS1=$PS1'> '
 #PS1=$PS1'$? 👻  $ '
 
 alias venv='source $HOME/venv/bin/activate'
+alias venv3='source $HOME/venv3/bin/activate'
 
 type -p brew >/dev/null && hash brew 2>/dev/null && [[ -s `brew --prefix`/Library/Contributions/brew_bash_completion.sh ]] && source `brew --prefix`/Library/Contributions/brew_bash_completion.sh
 
@@ -198,11 +199,17 @@ TV=delays:/d/tv
 MOVIES=delays:/d/movies
 MUSIC=delays:Music/mp3
 [[ -r .bashrc-$hostname ]] && source .bashrc-$hostname
+[[ -r .bashrc-local ]] && source .bashrc-local
 
 HOMES=/home
 [[ -L /home ]] && HOMES=$(readlink /home)
 PATH=$HOMES/$USER/go/bin:$PATH
-PATH=$PATH:/usr/local/go/bin
+[[ -L /usr/local/go/bin ]] && PATH=$PATH:/usr/local/go/bin
+
+type -p lolcat >/dev/null && LOLCAT="lolcat -p .5" || LOLCAT=cat
+type -p petname >/dev/null && PETNAME=$(petname -words=3) &&
+type -p figlet >/dev/null && trap 'figlet $PETNAME | $LOLCAT; sleep 1' EXIT ||
+{ type -p cowsay >/dev/null && trap 'cowsay "Have a nice day! $PETNAME"; sleep 1' EXIT ; }
 
 
 type -p lolcat >/dev/null && LOLCAT="lolcat -p .5" || LOLCAT=cat
