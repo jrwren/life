@@ -161,8 +161,8 @@ fi
 
 PS1=$PS1'$(__git_ps1 " (%s)")'
 
-PS1=$PS1'> '
-#PS1=$PS1'$? 👻  $ '
+#PS1=$PS1'> '
+PS1=$PS1' 👻  $ '
 
 alias venv='source $HOME/venv/bin/activate'
 alias venv3='source $HOME/venv3/bin/activate'
