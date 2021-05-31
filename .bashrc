@@ -45,7 +45,7 @@ if [[ ! -v DISPLAY ]];then
 fi
 [[ -x "/Applications/MacVim.app/Contents/MacOS/Vim" ]] && alias vim=/Applications/MacVim.app/Contents/MacOS/Vim && alias vi=vim && alias mvim=/Applications/MacVim.app/Contents/bin/mvim
 
-if [[ -v HOSTNAME ]]; then HOSTNAME=`hostname`;fi
+[[ -v HOSTNAME ]] && HOSTNAME=`hostname`
 if [[ `hostname -s` == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
 
 # some more ls aliases
@@ -62,11 +62,11 @@ if [[ `hostname -s` == "gogogogogogogo" ]]; then HOSTNAME='gogo'; fi
 #fi
 [[ ! -v debian_chroot ]] && debian_chroot=""
 [[ ! -v WINDOW ]] && WINDOW=""
-[[ ! -v TMUX_PAIN ]] && TMUX_PAIN=""
+[[ ! -v TMUX_PANE ]] && TMUX_PANE=""
 
 # A color and a non-color prompt:
 PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w \$ '
-PS1='${debian_chroot:+($debian_chroot)}\e[1;31m[${PWD}:${WINDOW}${TMUX_PAIN}]\e[1;32m[\A]\e[m\e[1;36m\n[\u@\h:\$]\e[m '
+PS1='${debian_chroot:+($debian_chroot)}\e[1;31m[${PWD}:${WINDOW}${TMUX_PANE}]\e[1;32m[\A]\e[m\e[1;36m\n[\u@\h:\$]\e[m '
 if [[ -v ITERM_PROFILE && "$ITERM_PROFILE" == "Default Light" ]]; then
     PS1='${debian_chroot:+($debian_chroot)}\D{%d%m%y-%H%M%S}\[\033[01;31m\]jrw@${HOSTNAME}\[\033[00m\]:{${WINDOW}${TMUX_PANE}}\[\033[01;34m\]\w\[\033[00m\]'
 else
@@ -90,7 +90,7 @@ xterm*|rxvt*|screen*)
         if [[ "$UNAME" == "Linux" ]]; then
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
             SSH_OAUTH_SOCK=$SSH_AUTH_SOCK
-#            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" || ! -s "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find /tmp/ssh* $TMPDIR/ssh*  -type s 2>/dev/null | head -1 | cut -f 2 -d " "`'
+            PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";[[ -z "$SSH_AUTH_SOCK" || ! -s "$SSH_AUTH_SOCK" ]] && export SSH_AUTH_SOCK=`find /tmp/ssh* $TMPDIR/ssh*  -type s 2>/dev/null | head -1 | cut -f 2 -d " "`'
         fi
         if [[ "$UNAME" == "Darwin" ]]; then
             PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}:${WINDOW}\007";'
