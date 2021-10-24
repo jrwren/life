@@ -8,7 +8,8 @@
 # don't put duplicate lines in the history. See bash(1) for more options
 #export HISTCONTROL=ignoredups
 HISTCONTROL=ignoreboth
-HISTSIZE=2000
+HISTSIZE=
+HISTFILESIZE=
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -234,3 +235,5 @@ man() {
 
 alias duf='duf -hide special'
 
+
+complete -C /home/jrwren/bin/terraform terraform

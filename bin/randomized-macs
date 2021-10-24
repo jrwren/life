@@ -1,0 +1,3 @@
+#!/bin/bash
+ ip neigh show nud reachable | grep ' .[26ae]:'
+ #https://www.mist.com/get-to-know-mac-address-randomization-in-2020/

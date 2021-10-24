@@ -1,0 +1,8 @@
+#!/bin/bash
+inf=$(echo *.mkv)
+outf="${inf//HEVC/AVC}"
+outf="${outf//[xh]265/h264}"
+
+echo ffmpeg -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i "$inf" -vf 'format=nv12,hwupload' -c:v h264_vaapi -b:v 10M -c:a copy -c:s copy "$outf"
+ffmpeg -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i "$inf" -vf 'hwdownload,format=nv12,hwupload' -c:v h264_vaapi -b:v 10M -c:a copy -c:s copy "$outf"
+

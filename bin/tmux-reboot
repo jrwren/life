@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# my post-reboot tmux start script. I want irssi in win 7, top in win0, split with taillog
+
+tmux new-session top
+tmux split-window -v 'bin/taillogs'
+tmux new-window '. bin/iostat'
+tmux new-window '. bin/bmon'
+tmux new-window
+tmux new-window
+tmux new-window
+tmux new-window
+tmux new-window 'irssi'
+tmux new-window
+tmux new-window
+tmux new-window

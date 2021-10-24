@@ -1,0 +1,3 @@
+ffmpeg -i $1  -c:v copy $2
+#or
+# unrar p $1.rar | ffmpeg  -i - -c:v copy $2

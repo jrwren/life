@@ -25,3 +25,5 @@
     insteadOf = sgh:
 [url "git+ssh://evarlast@git.launchpad.net/"]
     insteadOf = git+ssh://git.launchpad.net
+[init]
+	defaultBranch = main

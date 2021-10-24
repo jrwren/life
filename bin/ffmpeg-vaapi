@@ -1,0 +1,14 @@
+#!/bin/sh
+#ffmpeg -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i City.Slickers.1991.INTERNAL.REMASTERED.1080p.BluRay.X264-AMIABLE.mkv  -c:v hevc_vaapi -b:v 10M -c:a copy -c:s copy City.Slickers.1991.INTERNAL.REMASTERED.1080p.BluRay.X265-AMIABLE.mkv
+
+# welp... you can't put -c:v args and -b:v args before the -i... sooo... fuck it this is just example :(
+ffmpeg -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi   -c:v hevc_vaapi -b:v 10M -c:a copy -c:s copy 
+
+# OR USE h264_vaapi
+# e.g.
+inf=$(echo *.mkv)
+outf="${inf//HEVC/AVC}"
+outf="${outf//?256/h264}"
+
+echo ffmpeg -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i "$inf" -c:v h264_vaapi -b:v 10M -c:a copy -c:s copy $outf
+
